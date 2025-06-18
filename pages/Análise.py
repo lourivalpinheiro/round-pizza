@@ -16,8 +16,7 @@ TextElement.write_caption("---")
 
 # Page's content
 # Loads data and trains the model
-path = st.secrets["dataset"]["data"]
-df = pd.read_csv(path)
+df = pd.read_csv(st.secrets["dataset"]["data"])
 
 ## Loads data
 TextElement("# Conhecendo o conjunto de dados")
