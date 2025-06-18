@@ -25,7 +25,7 @@ TextElement("Primeiro, foi importante analisar o conjunto de dados a fim de sabe
 st.dataframe(df)
 
 ## Dataset details
-TextElement("É um conjunto de dados pequeno de duas colunas: 'diâmetro', 'preço'; contendo 500 linhas.")
+TextElement("É um conjunto de dados pequeno de duas colunas: 'diâmetro', 'preço'; contendo 50 linhas.")
 
 ## Confirming the connection between attributes
 TextElement("## Confirmando a relação entre diâmetro e preço")

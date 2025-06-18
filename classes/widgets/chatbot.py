@@ -10,7 +10,7 @@ def chatbot():
     if "message_list" not in st.session_state:
         st.session_state["message_list"] = []
 
-    # Button to clear the chat
+    # # Button to clear the chat
     if st.button("Limpar conversa"):
         st.session_state["message_list"] = []
         st.rerun()
