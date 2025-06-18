@@ -16,7 +16,9 @@ TextElement.write_caption("---")
 
 # Page's content
 # Loads data and trains the model
-df = pd.read_csv(st.secrets["dataset"]["data"])
+data = st.secrets["dataset"]["data"]
+df = pd.read_csv(data)
+
 
 ## Loads data
 TextElement("# Conhecendo o conjunto de dados")
@@ -34,7 +36,7 @@ TextElement("Conseguimos claramente estabelecer uma conexão entre diâmetro e p
 TextElement("Para deixar essa conexão mais visual, podemos aplicar gerar um gráfico de dispersão:")
 
 # Rendering scatterplot
-fig = px.scatter(df, x="diâmetro", y="preço", title="Relação entre diâmetro e preço", color_discrete_sequence=["yellow"])
+fig = px.scatter(data, x="diâmetro", y="preço", title="Relação entre diâmetro e preço", color_discrete_sequence=["yellow"])
 st.plotly_chart(fig)
 
 ## Detailing the plot
