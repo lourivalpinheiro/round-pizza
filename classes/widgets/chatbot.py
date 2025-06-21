@@ -29,6 +29,8 @@ def chatbot():
     prompt = st.chat_input(placeholder="Qual o diâmetro da pizza?")
 
     if prompt:
+        # Greeting
+        st.chat_message("assistant").write("Olá! Me chamo Gregor, modelo de Machine Learning capaz de prever o preço de uma pizza com base no diâmetro.")
         # Adds the user input to the chat history
         st.session_state["message_list"].append({"role": "user", "content": prompt})
 
