@@ -21,7 +21,7 @@ df = ApiConnection.get_data()
 ## Loads data
 TextElement("# Conhecendo o conjunto de dados")
 TextElement.write_caption("---")
-TextElement("Primeiro, gerei um conjunto de dados aleatório a fim de possuir dados para alimentar o modelo. Em seguida, segui para analisá-lo a fim de me familiarizar..")
+TextElement("Primeiro, gerei um conjunto de dados aleatório a fim de possuir dados para alimentar o modelo. Em seguida, segui para analisá-lo a fim de me familiarizar.")
 st.dataframe(df)
 
 ## Dataset details
