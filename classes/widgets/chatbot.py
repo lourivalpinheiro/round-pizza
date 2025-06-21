@@ -30,7 +30,7 @@ def chatbot():
 
     if prompt:
         # Greeting
-        st.chat_message("assistant").write("Olá! Me chamo Gregor, modelo de Machine Learning capaz de prever o preço de uma pizza com base no diâmetro.")
+        st.chat_message("assistant").write("Olá! Me chamo Gregor, modelo de Machine Learning capaz de prever o preço de uma pizza com base no diâmetro. Minhas previsões são baseadas em um conjunto de dados fictícios que estudei, portanto, não correspondem à realidade.")
         # Adds the user input to the chat history
         st.session_state["message_list"].append({"role": "user", "content": prompt})
 
