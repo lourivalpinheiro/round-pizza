@@ -3,61 +3,71 @@ import pandas as pd
 from classes.data.apiconnection import ApiConnection
 from classes.models.linearregression import Model
 from classes.ui.footer import Footer
+import traceback
+
+
+def is_valid_number(text):
+    """Validates if the string represents a positive float number."""
+    try:
+        value = float(text.replace(",", "."))
+        return value > 0
+    except ValueError:
+        return False
 
 
 def chatbot():
-    # This list keeps the record of the conversation
+    # Initializes the chat history
     if "message_list" not in st.session_state:
         st.session_state["message_list"] = []
 
-    # # Button to clear the chat
-    if st.button("Limpar conversa"):
+    # Button to clean the chat history
+    if st.button("🧹 Limpar conversa"):
         st.session_state["message_list"] = []
         st.rerun()
 
     # User's input
-    prompt = st.chat_input(placeholder='Qual o diâmetro da pizza?')
+    prompt = st.chat_input(placeholder="Qual o diâmetro da pizza?")
 
     if prompt:
-
-        st.chat_message("assistant").write("Olá! Eu me chamo **Gregor**, algoritmo de **Machine Learning** capaz de prever o preço de uma pizza com base em seu diâmetro. Os preços não necessariamente correspondem à realidade do mercado, pois posso cometer erros.")
-        # Adds user's message to the record
+        # Adds the user input to the chat history
         st.session_state["message_list"].append({"role": "user", "content": prompt})
 
-        try:
-            # Shows the chat history
-            for msg in st.session_state["message_list"]:
-                st.chat_message(msg["role"]).write(msg["content"])
+        if is_valid_number(prompt):
+            try:
+                # Shows previous chat history
+                for msg in st.session_state["message_list"]:
+                    st.chat_message(msg["role"]).write(msg["content"])
 
-            # Prepares data for prediction
-            diameter = float(prompt.replace(",", "."))
-            new_data = pd.DataFrame({"diametro": [diameter]})
+                diametro = float(prompt.replace(",", "."))
 
-            # Makes the prediction
-            # Loads data and trains the model
-            df = ApiConnection.get_data()
-            model_chat = Model()
-            model_chat.get_data(df, target_column="preco")
-            model_chat.train_model()
-            predicted_price = model_chat.predict(new_data)[0]
+                # Entry data for prediction
+                new_data = pd.DataFrame({"diametro": [diametro]})
 
-            answer = f"🍕 Para uma pizza com **{diameter:.1f} cm**, o preço estimado é **R$ {predicted_price:.2f}**."
+                # Loads data and prepares the model
+                df = ApiConnection.get_data()
+                model_chat = Model()
+                model_chat.get_data(df, target_column="preco")
+                model_chat.train_model()
 
+                # Makes the prediction and corrects the result properly
+                predicted_price = float(model_chat.predict(new_data)[0])
 
-        except ValueError:
+                answer = (
+                    f"Para uma pizza com **{diametro:.1f} cm**, "
+                    f"o preço estimado é **R$ {predicted_price:.2f}**."
+                )
 
-            answer = "Para que eu consiga prever o preço, preciso de um **número válido e positivo** como, por exemplo: `30` ou `30.0` (você também pode usar vírgula no lugar do ponto)."
+            except Exception:
+                st.error("Erro inesperado:\n\n" + traceback.format_exc())
+                answer = "⚠️ Ocorreu um erro inesperado ao tentar prever o preço. Por favor, tente novamente."
 
-        except Exception as e:
-
-            # Catch other potential errors gracefully
-
-            answer = f"Ocorreu um erro inesperado. Por favor, tente novamente. (Detalhes do erro: {e})"
+        else:
+            answer = (
+                "⚠️ Para prever o preço da pizza, digite um **número positivo** como `30`, `25.5` ou `22,0`."
+            )
 
         # Adds the assistant's answer to the chat history
         st.session_state["message_list"].append({"role": "assistant", "content": answer})
-
-        # Shows the last assistant's message
         st.chat_message("assistant").write(answer)
 
-        Footer.footer()
+    Footer.footer()

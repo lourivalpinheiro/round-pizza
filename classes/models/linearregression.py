@@ -16,7 +16,7 @@ class Model:
             raise ValueError(f"Target column '{target_column}' not found in dataframe.")
 
         self.data = data
-        self.y = data[target_column]
+        self.y = data[[target_column]]
         self.x = data.drop(columns=[target_column])
 
     def train_model(self, test_size=0.2, random_state=42):

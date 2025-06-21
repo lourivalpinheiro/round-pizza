@@ -11,7 +11,7 @@ import plotly.express as px
 # Page's main configuration
 welcomePage = Page("Análise", icon="🔎", pageLayout="centered")
 Header.hide_header()
-Title("🔎 Processo de análise")
+Title("🔎 Processo simples de análise")
 TextElement.write_caption("---")
 
 # Page's content
@@ -21,7 +21,7 @@ df = ApiConnection.get_data()
 ## Loads data
 TextElement("# Conhecendo o conjunto de dados")
 TextElement.write_caption("---")
-TextElement("Primeiro, foi importante analisar o conjunto de dados a fim de saber que tipo de dado ele contém.")
+TextElement("Primeiro, gerei um conjunto de dados aleatório a fim de possuir dados para alimentar o modelo. Em seguida, segui para analisá-lo a fim de me familiarizar..")
 st.dataframe(df)
 
 ## Dataset details
@@ -34,14 +34,13 @@ TextElement("Conseguimos claramente estabelecer uma conexão entre diâmetro e p
 TextElement("Para deixar essa conexão mais visual, podemos gerar um gráfico de dispersão:")
 
 # Rendering scatterplot
-x = df["diametro"].str.strip().dropna()
-y = df["preco"].str.strip().dropna()
+x = df["diametro"].dropna()
+y = df["preco"].dropna()
 fig = px.scatter(df, x=x, y=y, title="Relação entre diâmetro e preço", color_discrete_sequence=["yellow"])
 st.plotly_chart(fig)
 
 ## Detailing the plot
-TextElement("Ao observarmos a linha gerada pelo gráfico, confirmamos que realmente há uma clara relação entre os dois atributos (colunas). Entretanto, alguns **outliers**, dados que se destacam porque estão muito distantes da maioria dos dados dentro de um conjunto, são identificados, o que pode ocasionar tendências no modelo.")
-TextElement("Meu objetivo com esse projeto foi tentar construir um modelo que 'funcionasse', acima de tudo, além de ser capaz de fazer com que vocês usuários fossem capaz de interagir com ele. Então, iremos ignorar a alta probabilidade de tendências e aplicaremos regressão linear a fim de criar um modelo capaz de prever o preço da pizza com base no diâmetro.")
+TextElement("Ao observarmos o gráfico, confirmamos que realmente há uma clara relação entre os dois atributos (colunas) e aplicaremos regressão linear a fim de criar um modelo capaz de prever o preço da pizza com base no diâmetro.")
 
 # Footer
 Footer.footer()
